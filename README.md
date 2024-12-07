@@ -1,4 +1,27 @@
-## Variables
+# Status
+
+### Analysis
+
+In a perfect world, the WD between the train and OOD test should be larger than that between the train and ID test since the OOD test is meant to represent a larger distributional shift. We see that this is only the case for some factors, such as income and race.
+
+The fairness values should all tend to be larger/increase as the WD is larger then, indicating that the model is less fair as the distributional shift is more aggressive. 
+
+This appears to be the case for max calibration gap because calibration depends on how well the model's predicted probabilities align with observed outcomes. Larger distribution shifts (ie higher WD) indicate that the OOD test set has feature distributions that differ significantly from those in the train set, causing for the model to become over or underconfident for certain groups, especially for those underrepresented in the training set.
+
+This also appears to be the case for equalized odds difference because larger WDs as a result of distributional shifts can lead to imbalances in error rates (FPR and FNR) across sensitive groups. Equalized odds difference measures the difference in these error rates and larger WD often amplifies these differences as the model struggles to generalize fairly across shifted distributions.
+
+But this doesn't appear to be the case for statistical parity difference because positive prediction rates for groups remain stable, even under large distributional shifts. Group base rates (P(y = 1 | group)) do not appear to shift proportionally with WD and 
+the model may be biased or overfitted to the training data, assigning predictions uniformly across groups.
+
+### Next Steps:
+
+- Add intermediary WD points to explore how fairness metrics degrade more granularly (seeing if it sharply drops off at a certain point (threshold) or if it deteriorates linearly)
+
+- Investigate group base rates and feature interactions to clarify why statistical parity difference behaves differently than the other fairness metrics Look at relationships between fairness metrics to understand their interdependencies and underlying drivers.
+
+- Use fairness-enhancing techniques and assess their effectiveness under distribution shifts.
+
+# Variables
 
 Identifiers (these two together identify a unique individual):
 
@@ -93,7 +116,7 @@ All properties:
 - 'mortality_five_years' - if patient died in the next 5 years
 
 
-# Regions
+## Regions
 
 1 - Northeast Region: New England Division (ME, NH, VT, MA, RI, CT)
 2 - Northeast Region: Middle Atlantic Division (NY, NJ, PA)
@@ -116,7 +139,7 @@ All properties:
 99 - RF (refused)
 Blank - INAP (Inapplicable)
 
-# Education
+## Education
 
 0 - No formal education
 1-11 - Grade school
@@ -126,7 +149,7 @@ Blank - INAP (Inapplicable)
 17 - Post College
 97 - Other
 
-# Health
+## Health
 
 1 - Excellent
 2 - Very good
@@ -136,7 +159,7 @@ Blank - INAP (Inapplicable)
 8 - Don't Know
 9 - Refused
 
-# Health Impairments
+## Health Impairments
 
 1 - Yes
 3 - Disputes previous wave record but now has condition
@@ -145,7 +168,7 @@ Blank - INAP (Inapplicable)
 8 - Don't Know
 9 - Refused
 
-# Health - Compared
+## Health - Compared
 
 1 - Better
 2 - Same
