@@ -1,0 +1,4 @@
+.ipynb_checkpoints
+cleaned_merged_data.pkl
+cleaned_data_stacked_and_dict.pkl
+venv
