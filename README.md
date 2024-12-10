@@ -5,19 +5,28 @@
 - [ ] 1) Add intermediary WD points to explore how fairness metrics degrade more granularly (seeing if it sharply drops off at a certain point (threshold) or if it deteriorates linearly)
   - [ ] a) Recreate more train sets withholding and adding different properties (geography, temporal/years, income, etc) to create more WD data points
   - [ ] b) Retrain and re-test (KEEP DATASETS IN PICKLE FOR FUTURE USE WITH DIFF CLASSIFIER/FAIRNESS METHODS)
-  - [ ] c) Graph and analyze the behavior of the fairness metrics and see if any conclusions can be made.
+  - [ ] c) Graph and analyze the behavior of the fairness metrics and see if any conclusions can be made. Graph Analysis: When graphing, consider comparing the degradation of fairness metrics (e.g., max calibration gap, equalized odds difference) across different sensitive attributes (e.g., race, geography, income groups). This may help pinpoint which attributes are driving fairness metric deterioration under specific distribution shifts.
+  - [ ] d) Quantify Shift: Develop a consistent methodology to compute and rank WDs across features. This could involve normalizing WDs or ranking shifts by magnitude to prioritize meaningful scenarios for testing.
 
 - [ ] 2) Use different classifiers (neural networks) that can hopefully take advantage of the history of the features or do some extra feature creating to display the difference in income, health, etc over the past couple years for each individual. See if that can bump up accuracy
   - [ ] a) Use previous datasets of intermediary WDs to see how fairness changes with other classifiers
+  - [ ] b) feature engineering to get diff
 
 - [ ] 3) Investigate group base rates and feature interactions to clarify why statistical parity difference behaves differently than the other fairness metrics Look at relationships between fairness metrics to understand their interdependencies and underlying drivers.
   - [ ] a) Look into if specific groups are experiencing more shift than others, causing for different fairness metrics to act differently.
   - [ ] b) See if different fairness metrics follow the same trajectory or if not, why
+  - [ ] c) Feature Importance Analysis: Identify if stable features (e.g., gender, state) dominate statistical parity differences, while dynamic features (e.g., income, health) impact other metrics like calibration and equalized odds.
+  - [ ] d) Intersectional Groups: Investigate how subgroups (e.g., by race and income combined) are affected by distribution shifts. Use methods like bias scans or intersectional subgroup fairness metrics to identify where and why disparities occur​.
 
 
 - [ ] 4) Use fairness-enhancing techniques and assess their effectiveness under distribution shiftss
   - [ ] a) Use previous datasets of intermediary WDs to see how fairness changes
 
+- [ ] 5) Modeling Fairness-Accuracy Trade-offs
+  - [ ] a) Evaluate whether fairness improvements come at the cost of accuracy under distribution shifts. Quantify these trade-offs to provide actionable insights for real-world applications.
+
+- [ ] 6) Generalizability of Findings
+  - [ ] a) Relate your findings to broader contexts: Could similar patterns of fairness degradation occur with other types of datasets (e.g., education, criminal justice)? How might fairness interventions generalize across different out-of-distribution scenarios?
 ### Analysis
 
 In a perfect world, the WD between the train and OOD test should be larger than that between the train and ID test since the OOD test is meant to represent a larger distributional shift. We see that this is only the case for some factors, such as income and race.
