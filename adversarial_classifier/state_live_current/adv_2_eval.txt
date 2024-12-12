@@ -1,0 +1,20 @@
+ID Test Results: 
+              precision    recall  f1-score   support
+
+           0       0.69      0.87      0.77       115
+           1       0.72      0.46      0.57        84
+
+    accuracy                           0.70       199
+   macro avg       0.71      0.67      0.67       199
+weighted avg       0.70      0.70      0.68       199
+
+OOD Test Results: 
+              precision    recall  f1-score   support
+
+           0       0.61      0.79      0.69       115
+           1       0.53      0.32      0.40        84
+
+    accuracy                           0.59       199
+   macro avg       0.57      0.56      0.55       199
+weighted avg       0.58      0.59      0.57       199
+
