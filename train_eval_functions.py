@@ -52,7 +52,6 @@ def train_over_iterations(model, X_data, y_data, iterations, sensitive_a_data=No
     training_accuracies = []
     with warnings.catch_warnings():
         warnings.filterwarnings("ignore", category=ConvergenceWarning)
-        # Train for multiple iterations manually
         for i in tqdm(range(1, iterations + 1)):
             if isinstance(model, Pipeline):
                 model[-1].set_params(max_iter=i)
@@ -66,7 +65,6 @@ def train_over_iterations(model, X_data, y_data, iterations, sensitive_a_data=No
             acc = accuracy_score(y_data, y_train_pred)
             training_accuracies.append(acc)
     
-    # Plot training accuracy
     plt.plot(range(1, len(training_accuracies) + 1), training_accuracies, marker='o')
     plt.xlabel('Iteration')
     plt.ylabel('Training Accuracy')
@@ -81,7 +79,7 @@ def train_to_convergence(model, X_data, y_data, max_iterations = 1000, tol=1e-4,
     with warnings.catch_warnings():
         warnings.filterwarnings("ignore", category=ConvergenceWarning)
 
-        prev_acc = -1  # Initialize previous accuracy to an invalid value
+        prev_acc = -1
         for i in range(1, max_iterations + 1):
             if isinstance(model, Pipeline):
                 model[-1].set_params(max_iter=i, warm_start=True)
@@ -96,7 +94,6 @@ def train_to_convergence(model, X_data, y_data, max_iterations = 1000, tol=1e-4,
             y_train_pred = model.predict(X_data)
             acc = accuracy_score(y_data, y_train_pred)
             
-            # Check convergence based on accuracy improvement
             if abs(acc - prev_acc) < tol:
                 print(f"Converged at iteration {i} with accuracy {acc:.4f}")
                 break
@@ -123,9 +120,7 @@ def statistical_parity(y_pred, sensitive_attr):
         rates[group] = y_pred[mask].mean()
     return max(rates.values()) - min(rates.values())
 
-def equalized_odds(y_true, y_pred, sensitive_attr):
-    # Ensure indices are aligned
-    #sensitive_attr = sensitive_attr.loc[y_true.index]
+def equalized_odds(y_true, y_pred, sensitive_attr)
     
     groups = sensitive_attr.unique()
     fpr_diffs, fnr_diffs = [], []
@@ -135,25 +130,21 @@ def equalized_odds(y_true, y_pred, sensitive_attr):
         y_true_group = y_true[mask]
         y_pred_group = y_pred[mask]
         
-        # Calculate False Positive Rate (FPR) safely
         tn_fp = sum(y_true_group == 0)
         if tn_fp > 0:
             fpr = sum((y_pred_group == 1) & (y_true_group == 0)) / tn_fp
         else:
-            fpr = 0  # Set FPR to 0 if no true negatives
+            fpr = 0  #set FPR to 0 if no true negatives
 
-        # Calculate False Negative Rate (FNR) safely
         tp_fn = sum(y_true_group == 1)
         if tp_fn > 0:
             fnr = sum((y_pred_group == 0) & (y_true_group == 1)) / tp_fn
         else:
-            fnr = 0  # Set FNR to 0 if no true positives
+            fnr = 0  #set FNR to 0 if no true positives
 
-        # Track differences
         fpr_diffs.append(fpr)
         fnr_diffs.append(fnr)
     
-    # Calculate the maximum difference between groups
     max_fpr_diff = max(fpr_diffs) - min(fpr_diffs)
     max_fnr_diff = max(fnr_diffs) - min(fnr_diffs)
     
@@ -170,13 +161,10 @@ def group_calibration(y_true, y_prob, sensitive_attr):
         calibration_results[group] = (prob_true, prob_pred)
     return calibration_results
 
-# Function to calculate the maximum calibration gap
 def calculate_max_calibration_gap(calibration_results):
     max_gap = 0
     for group, (prob_true, prob_pred) in calibration_results.items():
-        # Compute absolute differences for the group
         group_gaps = [abs(t - p) for t, p in zip(prob_true, prob_pred)]
-        # Update the max gap if this group has a larger one
         max_gap = max(max_gap, max(group_gaps))
     return max_gap
 
